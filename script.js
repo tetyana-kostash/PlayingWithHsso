@@ -8,12 +8,12 @@
   };
 
   // Capital "O" in Oidc is strictly required for CDN global builds
-  if (typeof Oidc === 'undefined') {
+  if (typeof oidc === 'undefined') {
     console.error("Critical Error: The OIDC library failed to load from the CDN.");
     return;
   }
 
-  const userManager = new Oidc.UserManager(ssoConfig);
+  const userManager = new oidc.UserManager(ssoConfig);
 
   console.log("Checking authentication status...");
 
