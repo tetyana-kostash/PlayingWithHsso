@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Authenticating...</title>
+  <!-- Load the oidc-client-ts library from a CDN -->
+  <script src="https://jsdelivr.net"></script>
+</head>
+<body>
+  <p>Verifying your credentials, please wait...</p>
+  <script>
+    const userManager = new oidc.UserManager({
+      authority: "https://ncpdwp-hulk-hsso.int.dsomlabs.helixops.ai/rsso/oauth2",
+      client_id: "a9eb365f-b2ae-415e-b798-9aa9f34bc603",
+      redirect_uri: window.location.origin + window.location.pathname,
+      response_type: "code",
+      scope: "openid profile"
+    });
+
+    // Process the sign-in response from BMC Helix SSO
+    userManager.signinRedirectCallback().then(() => {
+      // Clear URL parameters and send user back to the main homepage
+      window.location.href = "index.html"; 
+    }).catch((error) => {
+      console.error("SSO Authentication Error:", error);
+      document.body.innerHTML = "<h3>Authentication failed. Please contact your administrator.</h3>";
+    });
+  </script>
+</body>
+</html>
