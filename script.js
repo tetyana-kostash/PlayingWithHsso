@@ -1,17 +1,17 @@
 (function() {
   const ssoConfig = {
-    authority: "https://ncpdwp-hulk-hsso.int.dsomlabs.helixops.ai/rsso/oauth2", 
+    authority: "https://ncpdwp-hulk-hsso.int.dsomlabs.helixops.ai",
     client_id: "a9eb365f-b2ae-415e-b798-9aa9f34bc603",                 
     redirect_uri: "https://tetyana-kostash.github.io/PlayingWithHsso/callback.html", 
     response_type: "code",
     scope: "openid profile",
 
-      metadata: {
-    issuer: "https://ncpdwp-hulk-hsso.int.dsomlabs.helixops.ai/rsso/oauth2",
-    authorization_endpoint: "https://helixops.ai",
-    token_endpoint: "https://helixops.ai",
-    userinfo_endpoint: "https://helixops.ai",
-    jwks_uri: "https://helixops.ai"
+    metadata: {
+      issuer: "https://helixops.ai",
+      authorization_endpoint: "https://helixops.ai/authorize",
+      token_endpoint: "https://helixops.ai/token",
+      userinfo_endpoint: "https://helixops.ai/userinfo",
+      jwks_uri: "https://helixops.ai/jwks"
   }
   };
 
