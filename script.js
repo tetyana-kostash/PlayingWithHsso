@@ -48,5 +48,28 @@ function initializePage() {
     window.location.href = authUrl;
   } else {
     console.log("User authenticated successfully via local proxy.");
+    
+    // ====================================================================
+    // DYNAMIC INJECTION: Load DWP Navigator Script ONLY after successful login
+    // ====================================================================
+    console.log("Loading DWP Employee Navigator script via local proxy...");
+    
+    const dwpScript = document.createElement('script');
+    dwpScript.type = "text/javascript";
+    dwpScript.id = "dwp-navigator__trigger-script";
+    dwpScript.defer = true;
+    
+    // Routed through your local proxy at port 3000 to bypass CORS block rules
+    dwpScript.src = "http://localhost:3000/dwpproxy/navigator/script/navigator-trigger.min.js";
+    
+    dwpScript.onload = function() {
+        console.log("DWP Employee Navigator script loaded successfully!");
+    };
+    
+    dwpScript.onerror = function() {
+        console.error("Failed to load DWP Navigator script. Ensure local proxy and VPN are running.");
+    };
+
+    document.body.appendChild(dwpScript);
   }
 })();
