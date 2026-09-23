@@ -35,7 +35,7 @@ function initializePage() {
     document.body.style.display = 'none';
 
     // Target your local running proxy endpoint
-    const authProxyServer = "http://localhost:3000/authproxy/oauth2/authorize"; 
+    const authProxyServer = "http://localhost:3000/authproxy/authorize"; 
     
     const clientId = "a9eb365f-b2ae-415e-b798-9aa9f34bc603"; // <-- REPLACE WITH YOUR REAL CLIENT ID FROM RSSO
     const redirectUri = "https://tetyana-kostash.github.io/PlayingWithHsso/callback.html";
