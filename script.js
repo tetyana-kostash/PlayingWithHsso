@@ -43,7 +43,7 @@ function initializePage() {
     const tenantDomain = "dwp-master1";
 
     // Construct the fully qualified authorization parameters endpoint URL string
-    const authUrl = `${authProxyServer}?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=openid%20profile&state=${state}`;
+    const authUrl = `${authProxyServer}?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=openid%20profile&state=${state}&tenant_domain=${encodeURIComponent(tenantDomain)}`;
 
     // Execute direct native browser redirection to the proxy interface layout
     window.location.href = authUrl;
