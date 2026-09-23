@@ -1,10 +1,11 @@
 (function() {
   const ssoConfig = {
-    authority: "https://ncpdwp-hulk-hsso.int.dsomlabs.helixops.ai",
+    authority: "hhttps://helixops.ai",
     client_id: "a9eb365f-b2ae-415e-b798-9aa9f34bc603",                 
     redirect_uri: "https://tetyana-kostash.github.io/PlayingWithHsso/callback.html", 
     response_type: "code",
     scope: "openid profile",
+    loadUserInfo: false,
 
     metadata: {
       issuer: "https://helixops.ai",
