@@ -52,4 +52,20 @@ function initializePage() {
     open.addEventListener('click', () => container.classList.add('show-nav'));
     close.addEventListener('click', () => container.classList.remove('show-nav'));
   }
+
+  // Inject the DWP Employee Navigator script ONLY after the user passes SSO login verification
+  console.log("Loading Employee Navigator Chat Panel Component...");
+  const dwpScript = document.createElement('script');
+  dwpScript.defer = true;
+  dwpScript.id = "dwp-navigator__trigger-script";
+  dwpScript.src = "https://ncpdwp-master1-dwp.int.dsomlabs.helixops.ai/dwp/navigator/script/navigator-trigger.min.js";
+  
+  // Optional parameters required by BMC Digital Workplace:
+  dwpScript.setAttribute("data-productName", "Employee Navigator");
+  
+  dwpScript.onerror = function() {
+    console.warn("DWP Chat Widget could not be reached. Ensure you are connected to the internal company VPN network environment.");
+  };
+
+  document.body.appendChild(dwpScript);
 }
