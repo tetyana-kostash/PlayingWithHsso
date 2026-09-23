@@ -38,7 +38,7 @@ function initializePage() {
     const authProxyServer = "http://localhost:3000/authproxy/oauth2/authorize"; 
     
     const clientId = "a9eb365f-b2ae-415e-b798-9aa9f34bc603"; // <-- REPLACE WITH YOUR REAL CLIENT ID FROM RSSO
-    const redirectUri = "https://github.io";
+    const redirectUri = "https://tetyana-kostash.github.io/PlayingWithHsso/callback.html";
     const state = Math.random().toString(36).substring(2); // Generate random state string for security
 
     // Construct the fully qualified authorization parameters endpoint URL string
