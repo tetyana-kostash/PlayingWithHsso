@@ -1,72 +1,52 @@
-(function() {
-  const ssoConfig = {
-    authority: "hhttps://helixops.ai",
-    client_id: "a9eb365f-b2ae-415e-b798-9aa9f34bc603",                 
-    redirect_uri: "https://tetyana-kostash.github.io/PlayingWithHsso/callback.html", 
-    response_type: "code",
-    scope: "openid profile",
-    loadUserInfo: false,
-
-    metadata: {
-      issuer: "https://helixops.ai",
-      authorization_endpoint: "https://helixops.ai/authorize",
-      token_endpoint: "https://helixops.ai/token",
-      userinfo_endpoint: "https://helixops.ai/userinfo",
-      jwks_uri: "https://helixops.ai/jwks"
-  }
-  };
-
-  // Capital "O" in Oidc is strictly required for CDN global builds
-  if (typeof oidc === 'undefined') {
-    console.error("Critical Error: The OIDC library failed to load from the CDN.");
-    return;
-  }
-
-  const userManager = new oidc.UserManager(ssoConfig);
-
-  console.log("Checking authentication status...");
-
-  userManager.getUser().then((user) => {
-    if (!user || user.expired) {
-      console.log("No valid session found. Redirecting to BMC Helix SSO...");
-      document.body.style.display = 'none'; // Prevent viewing content layout
-      userManager.signinRedirect();
-    } else {
-      console.log("Welcome back,", user.profile.name || user.profile.sub);
-      initializePage();
-    }
-  }).catch((err) => {
-    console.error("SSO verification triggered an error, forcing login sequence:", err);
-    userManager.signinRedirect();
-  });
-})();
-
 // ==========================================
-// 2. Your Original Application Logic
+// 1. Original User Interface Logic
 // ==========================================
 function initializePage() {
+  console.log("Initializing page layout assets...");
   const open = document.getElementById('open');
   const close = document.getElementById('close');
   const container = document.querySelector('.container');
 
-  if(open && close && container) {
+  if (open && close && container) {
     open.addEventListener('click', () => container.classList.add('show-nav'));
     close.addEventListener('click', () => container.classList.remove('show-nav'));
+    console.log("Navigation buttons initialized successfully.");
+  } else {
+    console.warn("Could not find navigation elements in DOM.");
   }
-
-  // Inject the DWP Employee Navigator script ONLY after the user passes SSO login verification
-  console.log("Loading Employee Navigator Chat Panel Component...");
-  const dwpScript = document.createElement('script');
-  dwpScript.defer = true;
-  dwpScript.id = "dwp-navigator__trigger-script";
-  dwpScript.src = "https://ncpdwp-master1-dwp.int.dsomlabs.helixops.ai/dwp/navigator/script/navigator-trigger.min.js";
-  
-  // Optional parameters required by BMC Digital Workplace:
-  dwpScript.setAttribute("data-productName", "Employee Navigator");
-  
-  dwpScript.onerror = function() {
-    console.warn("DWP Chat Widget could not be reached. Ensure you are connected to the internal company VPN network environment.");
-  };
-
-  document.body.appendChild(dwpScript);
 }
+
+// ==========================================
+// 2. Local AuthProxy SSO Integration Layer
+// ==========================================
+(function() {
+  // Always initialize the visual layout first so the page structure works
+  initializePage();
+
+  console.log("Checking authentication status...");
+  
+  // Check if an active session token exists in browser session storage
+  const hasToken = sessionStorage.getItem("rsso_access_token");
+
+  if (!hasToken) {
+    console.log("No valid session found. Redirecting via local AuthProxy...");
+    
+    // Hide body content to prevent visual flash before redirection
+    document.body.style.display = 'none';
+
+    // Target your local running proxy endpoint
+    const authProxyServer = "http://localhost:3000/authproxy/oauth2/authorize"; 
+    
+    const clientId = "a9eb365f-b2ae-415e-b798-9aa9f34bc603"; // <-- REPLACE WITH YOUR REAL CLIENT ID FROM RSSO
+    const redirectUri = "https://github.io";
+    const state = Math.random().toString(36).substring(2); // Generate random state string for security
+
+    // Construct the fully qualified authorization parameters endpoint URL string
+    const authUrl = `${authProxyServer}?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=openid%20profile&state=${state}`;
+
+    // Execute direct native browser redirection to the proxy interface layout
+    window.location.href = authUrl;
+  } else {
+    console.log("User authenticated successfully via local proxy.");
+  }
+})();
