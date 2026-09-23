@@ -40,7 +40,7 @@ function initializePage() {
     const clientId = "a9eb365f-b2ae-415e-b798-9aa9f34bc603"; // <-- REPLACE WITH YOUR REAL CLIENT ID FROM RSSO
     const redirectUri = "https://tetyana-kostash.github.io/PlayingWithHsso/callback.html";
     const state = Math.random().toString(36).substring(2); // Generate random state string for security
-    const tenantDomain = "dwp-master1";
+    const clientRealm = "dwp-master1";
 
     // Construct the fully qualified authorization parameters endpoint URL string
     const authUrl = `${authProxyServer}?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=openid%20profile&state=${state}&tenant_domain=${encodeURIComponent(tenantDomain)}`;
